@@ -1,0 +1,39 @@
+//insert species
+INSERT INTO Species VALUES ('Cat');
+INSERT INTO Species VALUES ('Dog');
+INSERT INTO Species VALUES ('Rabbit');
+INSERT INTO Species VALUES ('Horse');
+INSERT INTO Species VALUES ('Turtle');
+
+//insert dietplans
+INSERT INTO DietPlans VALUES ('Carnivore','Meat','10');
+INSERT INTO DietPlans VALUES ('Herbivore','Plant','20');
+INSERT INTO DietPlans VALUES ('Dry Foods plan','Dry food','30');
+INSERT INTO DietPlans VALUES ('Wet Foods plan','Wet food','40');
+INSERT INTO DietPlans VALUES ('Omnivore','Meat and plant','50');
+
+//insert shots
+INSERT INTO Shots VALUES ('Parvovirus');
+INSERT INTO Shots VALUES ('Distemper');
+INSERT INTO Shots VALUES ('Canine hepatitis');
+INSERT INTO Shots VALUES ('Rabies');
+INSERT INTO Shots VALUES ('Panleukopenia');
+
+//insert animals
+INSERT INTO Animals Values ('Felix', '1', '10', '5', '3', 'Calm', '1', '1', 'Male', NULL, NULL);
+INSERT INTO Animals Values ('Patty', '2', '30', '2', '3', 'Mean', '0', '0', 'Female', NULL, NULL);
+INSERT INTO Animals Values ('Trixie', '3', '5', '1', '2', 'Calm', '1', '1', 'Female', NULL, NULL);
+INSERT INTO Animals Values ('Speedway', '4', '1500', '3', '2', 'Calm', '1', '1', 'Male', NULL, NULL);
+INSERT INTO Animals Values ('Shelly', '5', '1', '2', '3', 'Calm', '1', '1', 'Female', NULL, NULL);
+
+//insert rooms
+INSERT INTO Rooms VALUES (NULL);
+INSERT INTO Rooms VALUES (NULL);
+INSERT INTO Rooms VALUES (NULL);
+INSERT INTO Rooms VALUES (NULL);
+INSERT INTO Rooms VALUES (NULL);
+INSERT INTO Rooms VALUES (NULL);
+INSERT INTO Rooms VALUES (NULL);
+INSERT INTO Rooms VALUES (NULL);
+INSERT INTO Rooms VALUES (NULL);
+INSERT INTO Rooms VALUES (NULL);
