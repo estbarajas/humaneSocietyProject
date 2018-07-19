@@ -133,9 +133,13 @@ namespace HumaneSociety
             return result;
         }
 
-        internal static DietPlan GetDietPlan()
+        public static DietPlan GetDietPlan()
         {
             throw new NotImplementedException();
+            //HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            //var result = from plans in db.DietPlans
+            //             select plans;
+            //return result
         }
 
         internal static void AddAnimal(Animal animal)
@@ -173,9 +177,13 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static Room GetRoom(int animalId)
+        public static Room GetRoom(int animalId)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from room in db.Rooms
+                         where room.AnimalId == animalId
+                         select room).First();
+            return result;
         }
     }
 }
