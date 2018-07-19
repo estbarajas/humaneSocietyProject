@@ -39,9 +39,18 @@ namespace HumaneSociety
             return result;
         }
 
-        public static void Adopt(object animal, Client client)
+        public static void Adopt(Animal animal, Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Adoption adoption = new Adoption();
+            adoption.ClientId = client.ClientId;
+            adoption.AnimalId = animal.AnimalId;
+            adoption.ApprovalStatus = animal.AdoptionStatus;
+            adoption.AdoptionFee = 75;
+            adoption.PaymentCollected = null;
+
+            db.Adoptions.InsertOnSubmit(adoption);
+            db.SubmitChanges();
         }
 
         public static IQueryable<Client> RetrieveClients()
@@ -163,9 +172,27 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        internal static void AddNewClient(string firstName, string lastName, string username, string password, string email, string streetAddress, int zipCode, int state)
+        public static void AddNewClient(string firstName, string lastName, string username, string password, string email, string streetAddress, int zipCode, int state)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+            Address adress = new Address();
+            adress.AddressLine1 = streetAddress;
+            adress.AddressLine2 = null;
+            adress.Zipcode = zipCode;
+            adress.USStateId = state;
+            db.Addresses.InsertOnSubmit(adress);
+
+            Client client = new Client();
+            client.FirstName = firstName;
+            client.LastName = lastName;
+            client.UserName = username;
+            client.Password = password;
+            client.AddressId = adress.AddressId;
+            client.Email = email;
+            db.Clients.InsertOnSubmit(client);
+
+            db.SubmitChanges();
         }
 
         public static IQueryable<Adoption> GetPendingAdoptions()
@@ -201,7 +228,7 @@ namespace HumaneSociety
 
         public static void UpdateShot(string v, Animal animal)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
             //HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             //var result = db.animalshotjunction
             //var result = (from shots in db.Shots
@@ -284,9 +311,45 @@ namespace HumaneSociety
             }                         
         }
 
-        internal static void EnterUpdate(Animal animal, Dictionary<int, string> updates)
-        {
-            throw new NotImplementedException();
+        public static void EnterUpdate(Animal animal, Dictionary<int, string> updates)
+        { //Select Updates: (Enter number and choose finished when finished)", "1. Category", "2. Breed", "3. Name", "4. Age", "5. Demeanor", "6. Kid friendly", "7. Pet friendly", "8. Weight", "9. Finished" 
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from animals in db.Animals
+                         where animals.AnimalId == animal.AnimalId
+                         select animal).First();
+            foreach (KeyValuePair<int, string> update in updates)
+            {
+                switch (update.Key)
+                {
+                    case 1:
+                        result.Species.Name = update.Value;
+                        break; 
+                    case 2:
+                        result.Name = update.Value;
+                        break;
+                    case 3:
+                        result.Age = Convert.ToInt32(update.Value);
+                        break;
+                    case 4:
+                        result.Demeanor = update.Value;
+                        break;
+                    case 5:
+                        result.KidFriendly = Convert.ToBoolean(update.Value);
+                        break;
+                    case 6:
+                        result.PetFriendly = Convert.ToBoolean(update.Value);
+                        break;
+                    case 7:
+                        result.Weight = Convert.ToInt32(update.Value);
+                        break;
+                    case 8:
+                        break;
+                }
+
+                db.Animals.InsertOnSubmit(result);
+                db.SubmitChanges();
+            }
+
         }
 
         public static void RemoveAnimal(Animal theAnimal)
