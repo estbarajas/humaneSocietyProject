@@ -48,9 +48,12 @@ namespace HumaneSociety
             return result;
         }
 
-        internal static object GetStates()
+        public static IQueryable<USState> GetStates()
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = from states in db.USStates
+                         select states;
+            return result;
         }
 
         internal static void updateClient(Client client)
