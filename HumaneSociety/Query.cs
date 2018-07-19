@@ -13,9 +13,13 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static Client GetClient(string userName, string password)
+        public static Client GetClient(string userName, string password)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from clients in db.Clients
+                         where (clients.UserName == userName) && (clients.Password == password)
+                         select clients).First();
+            return result;
         }
 
         public static IQueryable<Adoption> GetUserAdoptionStatus(Client person)
@@ -105,9 +109,13 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static object GetShots(Animal animal)
+        public static IQueryable<AnimalShot> GetShots(Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = from shots in db.AnimalShots
+                         where shots.AnimalId == animal.AnimalId
+                         select shots;
+            return result;      
         }
 
         internal static void UpdateShot(string v, Animal animal)
@@ -115,9 +123,14 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static object GetSpecies()
+        public static IQueryable<Species> GetSpecies(string speciesName) //NEED TO ADD AND IF TO COVER IF SPECIES DOES NOT EXIST
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+            var result = from species in db.Species
+                         where species.Name == speciesName
+                         select species;
+            return result;
         }
 
         internal static DietPlan GetDietPlan()
