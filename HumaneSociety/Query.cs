@@ -18,9 +18,12 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static object GetUserAdoptionStatus(Client client)
+        public static string GetUserAdoptionStatus(Client person)
         {
             throw new NotImplementedException();
+            //HumaneSocietyDataContext db  =  new HumaneSocietyDataContext();
+            //var result = from status in db.Adoptions
+            //             where status.ClientId == person;
         }
 
         internal static object GetAnimalByID(int iD)
@@ -33,9 +36,13 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static object RetrieveClients()
+        public static void RetrieveClients()
         {
             throw new NotImplementedException();
+            //HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            //var queryAllCustomers = from spec in db.Species
+            //                        select spec;
+            //Console.WriteLine(queryAllCustomers);
         }
 
         internal static object GetStates()
@@ -73,9 +80,13 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static object GetPendingAdoptions()
+        public static IQueryable<Adoption> GetPendingAdoptions()
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from pending in db.Adoptions
+                         where pending.ApprovalStatus == "Pending"
+                         select pending);
+            return result;
         }
 
         internal static void UpdateLastName(Client client)
