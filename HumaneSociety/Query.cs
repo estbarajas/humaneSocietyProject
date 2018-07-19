@@ -26,9 +26,13 @@ namespace HumaneSociety
             //             where status.ClientId == person;
         }
 
-        internal static object GetAnimalByID(int iD)
+        public static IQueryable<Animal> GetAnimalByID(int iD)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = from animal in db.Animals
+                         where animal.AnimalId == iD
+                         select animal;
+            return result;
         }
 
         internal static void Adopt(object animal, Client client)
@@ -36,13 +40,12 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        public static void RetrieveClients()
+        public static IQueryable<Client> RetrieveClients()
         {
-            throw new NotImplementedException();
-            //HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            //var queryAllCustomers = from spec in db.Species
-            //                        select spec;
-            //Console.WriteLine(queryAllCustomers);
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = from clients in db.Clients
+                         select clients;
+            return result;
         }
 
         internal static object GetStates()

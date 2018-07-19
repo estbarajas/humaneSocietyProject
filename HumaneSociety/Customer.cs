@@ -105,7 +105,7 @@ namespace HumaneSociety
             UserInterface.DisplayUserOptions("Please enter the ID of the animal you wish to adopt or type reset or exit");
             int iD = UserInterface.GetIntegerData();
             var animal = Query.GetAnimalByID(iD);
-            UserInterface.DisplayAnimalInfo(animal);
+            UserInterface.DisplayAnimalInfo(animal.First());
             UserInterface.DisplayUserOptions("Would you like to adopt?");
             if ((bool)UserInterface.GetBitData())
             {
@@ -158,7 +158,7 @@ namespace HumaneSociety
             UserInterface.DisplayUserOptions("Please enter a username");
             string username = UserInterface.GetUserInput();
             var clients = Query.RetrieveClients();
-            var clientUsernames = from client in clients select client.userName;
+            var clientUsernames = from client in clients select client.UserName;
             if (CheckForForValue(clientUsernames.ToList(), username))
             {
                 Console.Clear();
@@ -178,7 +178,7 @@ namespace HumaneSociety
         public static string GetEmail()
         {
             var clients = Query.RetrieveClients();
-            var clientEmails = from client in clients select client.email;
+            var clientEmails = from client in clients select client.Email;
             UserInterface.DisplayUserOptions("Please enter your email");
             string email = UserInterface.GetUserInput();
             if (email.Contains("@") && email.Contains("."))
