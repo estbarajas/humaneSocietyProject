@@ -18,12 +18,12 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        public static string GetUserAdoptionStatus(Client person)
+        public static IQueryable<Adoption> GetUserAdoptionStatus(Client person)
         {
-            throw new NotImplementedException();
-            //HumaneSocietyDataContext db  =  new HumaneSocietyDataContext();
-            //var result = from status in db.Adoptions
-            //             where status.ClientId == person;
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = from adoption in db.Adoptions
+                         select adoption;
+            return result;
         }
 
         public static IQueryable<Animal> GetAnimalByID(int iD)
