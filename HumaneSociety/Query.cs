@@ -39,7 +39,7 @@ namespace HumaneSociety
             return result;
         }
 
-        internal static void Adopt(object animal, Client client)
+        public static void Adopt(object animal, Client client)
         {
             throw new NotImplementedException();
         }
@@ -60,29 +60,107 @@ namespace HumaneSociety
             return result;
         }
 
-        internal static void updateClient(Client client)
+        public static void updateClient(Client client)
         {
-            throw new NotImplementedException();
+            UpdateFirstName(client);
+            UpdateLastName(client);
+            UpdatePassword(client);
+            UpdateAddress(client);
+            UpdateEmail(client);
+            UpdateIncome(client);
+            UpdateNumberOfKids(client);
+            UpdateHomeSqFt(client);
         }
 
-        internal static void UpdateUsername(Client client)
+        public static void UpdateUsername(Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from username in db.Clients
+                         where username.ClientId == client.ClientId
+                         select username).First();
+            
+            result.UserName = client.UserName;
+            db.SubmitChanges();
         }
 
-        internal static void UpdateEmail(Client client)
+        public static void UpdatePassword(Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from username in db.Clients
+                          where username.ClientId == client.ClientId
+                          select username).First();
+            result.Password = client.Password;
+            db.SubmitChanges();
         }
 
-        internal static void UpdateAddress(Client client)
+        public static void UpdateEmail(Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from username in db.Clients
+                          where username.ClientId == client.ClientId
+                          select username).First();
+            result.Email = client.Email;
+            db.SubmitChanges();
         }
 
-        internal static void UpdateFirstName(Client client)
+        public static void UpdateAddress(Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from username in db.Clients
+                          where username.ClientId == client.ClientId
+                          select username).First();
+            result.Address = client.Address;
+            db.SubmitChanges();
+        }
+
+        public static void UpdateFirstName(Client client)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from username in db.Clients
+                          where username.ClientId == client.ClientId
+                          select username).First();
+            result.FirstName = client.FirstName;
+            db.SubmitChanges();
+        }
+
+        public static void UpdateLastName(Client client)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from username in db.Clients
+                          where username.ClientId == client.ClientId
+                          select username).First();
+            result.LastName = client.LastName;
+            db.SubmitChanges();
+        }
+
+        public static void UpdateIncome(Client client)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from username in db.Clients
+                          where username.ClientId == client.ClientId
+                          select username).First();
+            result.Income = client.Income;
+            db.SubmitChanges();
+        }
+
+        public static void UpdateNumberOfKids(Client client)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from username in db.Clients
+                          where username.ClientId == client.ClientId
+                          select username).First();
+            result.NumberOfKids = client.NumberOfKids;
+            db.SubmitChanges();
+        }
+
+        public static void UpdateHomeSqFt(Client client)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from username in db.Clients
+                          where username.ClientId == client.ClientId
+                          select username).First();
+            result.HomeSquareFootage = client.HomeSquareFootage;
+            db.SubmitChanges();
         }
 
         internal static void AddNewClient(string firstName, string lastName, string username, string password, string email, string streetAddress, int zipCode, int state)
@@ -99,14 +177,17 @@ namespace HumaneSociety
             return result;
         }
 
-        internal static void UpdateLastName(Client client)
+        public static void UpdateAdoption(bool v, Adoption adoption)
         {
-            throw new NotImplementedException();
-        }
-
-        internal static void UpdateAdoption(bool v, Adoption adoption)
-        {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from adoptions in db.Adoptions
+                         where adoptions.AdoptionId == adoption.AdoptionId
+                         select adoptions).First();
+            if(v == true)
+            {
+                result.ApprovalStatus = "Accepted";
+            }
+            db.SubmitChanges();
         }
 
         public static IQueryable<AnimalShot> GetShots(Animal animal)
@@ -118,9 +199,15 @@ namespace HumaneSociety
             return result;      
         }
 
-        internal static void UpdateShot(string v, Animal animal)
+        public static void UpdateShot(string v, Animal animal)
         {
             throw new NotImplementedException();
+            //HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            //var result = db.animalshotjunction
+            //var result = (from shots in db.Shots
+            //             where shots.AnimalId == animal.AnimalId
+            //             select shots).First();
+            //result.ShotId = v;
         }
 
         public static IQueryable<Species> GetSpecies(string speciesName) //NEED TO ADD AND IF TO COVER IF SPECIES DOES NOT EXIST
@@ -133,38 +220,68 @@ namespace HumaneSociety
             return result;
         }
 
-        public static DietPlan GetDietPlan()
+        public static DietPlan GetDietPlan(string dietPlan)
         {
-            throw new NotImplementedException();
-            //HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            //var result = from plans in db.DietPlans
-            //             select plans;
-            //return result
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from plans in db.DietPlans
+                         where plans.Name == dietPlan
+                         select plans).First();
+            return result;
         }
 
-        internal static void AddAnimal(Animal animal)
+        public static void AddAnimal(Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            db.Animals.InsertOnSubmit(animal);
+            db.SubmitChanges();
         }
 
-        internal static Employee EmployeeLogin(string userName, string password)
+        public static Employee EmployeeLogin(string userName, string password)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from employees in db.Employees
+                         where employees.UserName == userName && employees.Password == password
+                         select employees).First();
+            return result;
         }
 
-        internal static void AddUsernameAndPassword(Employee employee)
+        public static void AddUsernameAndPassword(Employee employee)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from employees in db.Employees
+                         where employees.EmployeeId == employee.EmployeeId 
+                         select employees).First();
+
+            result.UserName = employee.UserName;
+            result.Password = employee.Password;
+            db.SubmitChanges();
         }
 
-        internal static Employee RetrieveEmployeeUser(string email, int employeeNumber)
+        public static Employee RetrieveEmployeeUser(string email, int employeeNumber)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from employee in db.Employees
+                         where employee.Email == email || employee.EmployeeNumber == employeeNumber
+                         select employee).First();
+            return result;
         }
 
-        internal static bool CheckEmployeeUserNameExist(string username)
+        public static bool CheckEmployeeUserNameExist(string username)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+            var result = from employees in db.Employees
+                         where employees.UserName == username
+                         select employees;
+            if (result != null)
+            {
+                Console.WriteLine("Found.");
+                return true;
+            }
+            else {
+                Console.WriteLine("Not found.");
+                return false;
+            }                         
         }
 
         internal static void EnterUpdate(Animal animal, Dictionary<int, string> updates)
@@ -172,9 +289,16 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static void RemoveAnimal(Animal animal)
+        public static void RemoveAnimal(Animal theAnimal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+            var result = (from animal in db.Animals
+                         where animal.AnimalId == theAnimal.AnimalId
+                         select animal).First();
+
+            db.Animals.DeleteOnSubmit(result);
+            db.SubmitChanges();
         }
 
         public static Room GetRoom(int animalId)

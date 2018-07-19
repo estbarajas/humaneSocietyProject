@@ -18,6 +18,7 @@ INSERT INTO Shots VALUES ('Distemper');
 INSERT INTO Shots VALUES ('Canine hepatitis');
 INSERT INTO Shots VALUES ('Rabies');
 INSERT INTO Shots VALUES ('Panleukopenia');
+INSERT INTO Shots VALUES ('Booster');
 
 //insert animals
 INSERT INTO Animals Values ('Felix', '1', '10', '5', '3', 'Calm', '1', '1', 'Male', NULL, NULL);
