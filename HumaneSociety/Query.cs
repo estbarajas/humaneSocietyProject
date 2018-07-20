@@ -417,8 +417,8 @@ namespace HumaneSociety
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             var result = (from employee in db.Employees
-                         where employee.Email == email || employee.EmployeeNumber == employeeNumber
-                         select employee).First();
+                         where (employee.Email == email) && (employee.EmployeeNumber == employeeNumber)
+                         select employee).Single();
             return result;
         }
 
@@ -475,7 +475,7 @@ namespace HumaneSociety
                         break;
                 }
 
-                db.Animals.InsertOnSubmit(result);
+                //db.Animals.InsertOnSubmit(result);
                 db.SubmitChanges();
             }
 
@@ -487,8 +487,8 @@ namespace HumaneSociety
             //db.Animals.DeleteOnSubmit(animal);
             //db.SubmitChanges();
             var result = (from animal in db.Animals
-                          where animal.AnimalId == theAnimal.AnimalId
-                          select animal).First();
+                         where animal.AnimalId == theAnimal.AnimalId
+                         select animal).First();
 
             db.Animals.DeleteOnSubmit(result);
             db.SubmitChanges();
@@ -511,8 +511,8 @@ namespace HumaneSociety
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             var result = (from room in db.Rooms
-                         where room.AnimalId == animalId
-                         select room).First();
+                          where room.AnimalId == animalId
+                          select room).First();
             return result;
         }
     }
