@@ -1117,7 +1117,7 @@ namespace HumaneSociety
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Specy_Animal", Storage="_Specy", ThisKey="SpeciesId", OtherKey="SpeciesId", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Species_Animal", Storage="_Specy", ThisKey="SpeciesId", OtherKey="SpeciesId", IsForeignKey=true)]
 		public Species Species
 		{
 			get
@@ -2325,7 +2325,7 @@ namespace HumaneSociety
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Specy_Animal", Storage="_Animals", ThisKey="SpeciesId", OtherKey="SpeciesId")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Species_Animal", Storage="_Animals", ThisKey="SpeciesId", OtherKey="SpeciesId")]
 		public EntitySet<Animal> Animals
 		{
 			get
@@ -2519,7 +2519,7 @@ namespace HumaneSociety
 		
 		private System.Nullable<int> _AnimalId;
 		
-		private System.Nullable<int> _RoomName;
+		private string _RoomName;
 		
 		private EntityRef<Animal> _Animal;
 		
@@ -2531,7 +2531,7 @@ namespace HumaneSociety
     partial void OnRoomIdChanged();
     partial void OnAnimalIdChanging(System.Nullable<int> value);
     partial void OnAnimalIdChanged();
-    partial void OnRoomNameChanging(System.Nullable<int> value);
+    partial void OnRoomNameChanging(string value);
     partial void OnRoomNameChanged();
     #endregion
 		
@@ -2585,8 +2585,8 @@ namespace HumaneSociety
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomName", DbType="Int")]
-		public System.Nullable<int> RoomName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomName", DbType="VarChar(50)")]
+		public string RoomName
 		{
 			get
 			{

@@ -26,7 +26,7 @@ namespace HumaneSociety
         }
         protected override void RunUserMenus()
         {
-            List<string> options = new List<string>() { "What would you like to do? (select number of choice)", "1. Add animal", "2. Remove Anmial", "3. Check Animal Status",  "4. Approve Adoption" };
+            List<string> options = new List<string>() { "What would you like to do? (select number of choice)", "1. Add animal", "2. Remove Animal", "3. Check Animal Status",  "4. Approve Adoption" };
             UserInterface.DisplayUserOptions(options);
             string input = UserInterface.GetUserInput();
             RunUserInput(input);
@@ -244,17 +244,21 @@ namespace HumaneSociety
         {
             Console.Clear();
             Animal animal = new Animal();
+            Room room = new Room();
             string species = UserInterface.GetStringData("species", "the animal's");
-            animal.Species = Query.GetSpecies(species).First();
+            animal.SpeciesId = Query.GetSpecies(species);
             animal.Name = UserInterface.GetStringData("name", "the animal's");
+            string roomName = UserInterface.GetStringData("name", "the animal's");
+            
             animal.Age = UserInterface.GetIntegerData("age", "the animal's");
             animal.Demeanor = UserInterface.GetStringData("demeanor", "the animal's");
             animal.KidFriendly = UserInterface.GetBitData("the animal", "child friendly");
             animal.PetFriendly = UserInterface.GetBitData("the animal", "pet friendly");
             animal.Weight = UserInterface.GetIntegerData("the animal", "the weight of the");
             string dietPlan = UserInterface.GetStringData("diet plan", "the animal's");
-            animal.DietPlan= Query.GetDietPlan(dietPlan);
+            animal.DietPlanId = Query.GetDietPlan(dietPlan);
             Query.AddAnimal(animal);
+            Query.AddAnimalToRoom(animal.AnimalId, roomName);
         }
         protected override void LogInPreExistingUser()
         {

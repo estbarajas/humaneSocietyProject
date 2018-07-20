@@ -39,9 +39,16 @@ INSERT INTO Rooms VALUES (NULL);
 INSERT INTO Rooms VALUES (NULL);
 INSERT INTO Rooms VALUES (NULL);
 
+//insert clients
+INSERT INTO Clients VALUES ('Jerry', 'Box', 'jbox', '1234', NULL, 'jerry@gmail.com', '45000', '5', '1');
+
 //alter room to have RoomName
 ALTER TABLE Rooms
 ADD RoomName INTEGER;
+ALTER TABLE "Rooms"
+DROP COLUMN "RoomName";
+ALTER TABLE Rooms
+ADD RoomName VARCHAR(50);
 
 //update to shotname
 UPDATE Shots

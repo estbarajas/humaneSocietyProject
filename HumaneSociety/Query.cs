@@ -41,7 +41,7 @@ namespace HumaneSociety
             }
         }
 
-        private static void UpdateEmployeeInfo(Employee employee, string crud) 
+        public static void UpdateEmployeeInfo(Employee employee, string crud) 
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             var result = (from employees in db.Employees
@@ -57,7 +57,7 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        private static void ReadEmployeeInfo(Employee employee, string crud)
+        public static void ReadEmployeeInfo(Employee employee, string crud)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             var result = (from employees in db.Employees
@@ -67,18 +67,18 @@ namespace HumaneSociety
             UserInterface.DisplayUserOptions(employeeInfo);
         }
 
-        private static void DeleteEmployee(Employee employee, string crud)
+        public static void DeleteEmployee(Employee employee, string crud)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             var result = (from employees in db.Employees
-                          where employees.EmployeeId == employee.EmployeeId
+                          where employees.UserName == employee.UserName
                           select employees).First();
 
             db.Employees.DeleteOnSubmit(result);
             db.SubmitChanges();
         }
 
-        private static void CreateNewEmployee(Employee employee, string crud)
+        public static void CreateNewEmployee(Employee employee, string crud)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Employee newEmployee = new Employee();
@@ -353,17 +353,17 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        public static IQueryable<Species> GetSpecies(string speciesName) 
+        public static int GetSpecies(string speciesName) 
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            var result = from species in db.Species
+            var result = (from species in db.Species
                          where species.Name == speciesName
-                         select species;
+                         select species).First();
             if (result == null)
             {
                 CreateNewSpecies(speciesName);
             }
-            return result;
+            return result.SpeciesId;
         }
         
         public static void CreateNewSpecies(string speciesName)
@@ -376,13 +376,13 @@ namespace HumaneSociety
             db.SubmitChanges(); 
         }
 
-    public static DietPlan GetDietPlan(string dietPlan)
+    public static int GetDietPlan(string dietPlan)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             var result = (from plans in db.DietPlans
                          where plans.Name == dietPlan
                          select plans).First();
-            return result;
+            return result.DietPlanId;
         }
 
         public static void AddAnimal(Animal animal)
@@ -484,23 +484,26 @@ namespace HumaneSociety
         public static void RemoveAnimal(Animal theAnimal)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-
+            //db.Animals.DeleteOnSubmit(animal);
+            //db.SubmitChanges();
             var result = (from animal in db.Animals
-                         where animal.AnimalId == theAnimal.AnimalId
-                         select animal).First();
+                          where animal.AnimalId == theAnimal.AnimalId
+                          select animal).First();
 
             db.Animals.DeleteOnSubmit(result);
             db.SubmitChanges();
         }
 
-        public static void UpdateRoom(int animalId,int roomName)
+        public static void AddAnimalToRoom(int animalId,string roomName)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            var result = (from room in db.Rooms
-                          where room.AnimalId == animalId
-                          select room).First();
-            result.AnimalId = animalId;
-            result.RoomName = roomName;
+            //var result = (from room in db.Rooms
+            //              where room.AnimalId == animalId
+            //              select room).First();
+            Room room = new Room();
+            room.AnimalId = animalId;
+            room.RoomName = roomName;
+            db.Rooms.InsertOnSubmit(room);
             db.SubmitChanges();
         }
 

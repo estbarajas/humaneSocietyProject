@@ -53,7 +53,7 @@ namespace HumaneSociety
             
         }
 
-        private void RunUserInput(int input)
+        public void RunUserInput(int input)
         {
             switch (input)
             {
@@ -79,7 +79,7 @@ namespace HumaneSociety
             }
         }
 
-        private void CheckAdoptionStatus()
+        public void CheckAdoptionStatus()
         {
             var pendingAdoptions = Query.GetUserAdoptionStatus(client).ToList();
             if (pendingAdoptions.Count == 0)
@@ -99,7 +99,7 @@ namespace HumaneSociety
             }
         }
 
-        private void ApplyForAdoption()
+        public void ApplyForAdoption()
         {
             Console.Clear();
             UserInterface.DisplayUserOptions("Please enter the ID of the animal you wish to adopt or type reset or exit");
@@ -114,7 +114,7 @@ namespace HumaneSociety
             }
         }
 
-        private void RunSearch()
+        public void RunSearch()
         {
             Console.Clear();
             var animals = SearchForAnimal().ToList();
@@ -135,7 +135,7 @@ namespace HumaneSociety
             Console.ReadLine();
         }
 
-        private void CheckIfAccountComplete()
+        public void CheckIfAccountComplete()
         {
             if(client.HomeSquareFootage == null || client.NumberOfKids == null || client.Income == null)
             {
@@ -199,7 +199,7 @@ namespace HumaneSociety
             }
 
         }
-        private static int GetState()
+        public static int GetState()
         {
             UserInterface.DisplayUserOptions("Please enter your state (abbreviation or full state name");
             string state = UserInterface.GetUserInput();
@@ -321,7 +321,7 @@ namespace HumaneSociety
             }
 
         }
-        private void RunUpdateInput(int input)
+        public void RunUpdateInput(int input)
         {
             switch (input)
             {
@@ -356,7 +356,7 @@ namespace HumaneSociety
 
         }
 
-        private void UpdateHomeSize()
+        public void UpdateHomeSize()
         {
             Console.Clear();
             UserInterface.DisplayUserOptions("What is your home size? (small, medium, large)");
@@ -382,7 +382,7 @@ namespace HumaneSociety
             }
         }
 
-        private void UpdateKids()
+        public void UpdateKids()
         {
             Console.Clear();
             UserInterface.DisplayUserOptions("How many childern are in your household?");
@@ -390,14 +390,14 @@ namespace HumaneSociety
             Query.updateClient(client);
         }
 
-        private void UpdateIncome()
+        public void UpdateIncome()
         {
             UserInterface.DisplayUserOptions("What is your household income? (If you would like to omit it enter 0)");
             client.Income = UserInterface.GetIntegerData();
             Query.updateClient(client);
         }
 
-        private void UpdatePassword()
+        public void UpdatePassword()
         {
             Console.Clear();
             Console.Clear();
@@ -406,7 +406,7 @@ namespace HumaneSociety
             Query.updateClient(client);
         }
 
-        private void UpdateUsername()
+        public void UpdateUsername()
         {
             Console.Clear();
             UserInterface.DisplayUserOptions("Current Username: " + client.UserName);
@@ -414,7 +414,7 @@ namespace HumaneSociety
             Query.UpdateUsername(client);
         }
 
-        private void UpdateEmail()
+        public void UpdateEmail()
         {
             Console.Clear();
             UserInterface.DisplayUserOptions("Current email: " + client.Email);
