@@ -42,3 +42,8 @@ INSERT INTO Rooms VALUES (NULL);
 //alter room to have RoomName
 ALTER TABLE Rooms
 ADD RoomName INTEGER;
+
+//update to shotname
+UPDATE Shots
+SET Name = 'booster'
+WHERE ShotId = 6;

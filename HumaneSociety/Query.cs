@@ -308,13 +308,16 @@ namespace HumaneSociety
 
         public static void UpdateShot(string v, Animal animal)
         {
-            //throw new NotImplementedException();
-            //HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            //var result = db.animalshotjunction
-            //var result = (from shots in db.Shots
-            //             where shots.AnimalId == animal.AnimalId
-            //             select shots).First();
-            //result.ShotId = v;
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var selectedShot = (from shot in db.Shots
+                         where shot.Name == v
+                         select shot).First();
+            var result = (from animalShot in db.AnimalShots
+                         where animalShot.ShotId == selectedShot.ShotId && animalShot.ShotId == animal.AnimalId
+                         select animalShot).First();
+            result.DateReceived = DateTime.Now;
+
+            db.SubmitChanges();
         }
 
         public static void ImportCSVFile()
@@ -350,17 +353,30 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        public static IQueryable<Species> GetSpecies(string speciesName) //NEED TO ADD AND IF TO COVER IF SPECIES DOES NOT EXIST
+        public static IQueryable<Species> GetSpecies(string speciesName) 
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-
             var result = from species in db.Species
                          where species.Name == speciesName
                          select species;
+            if (result == null)
+            {
+                CreateNewSpecies(speciesName);
+            }
             return result;
         }
+        
+        public static void CreateNewSpecies(string speciesName)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Species species = new Species();
+            species.Name = speciesName;
 
-        public static DietPlan GetDietPlan(string dietPlan)
+            db.Species.InsertOnSubmit(species);
+            db.SubmitChanges(); 
+        }
+
+    public static DietPlan GetDietPlan(string dietPlan)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             var result = (from plans in db.DietPlans
@@ -435,7 +451,7 @@ namespace HumaneSociety
                 switch (update.Key)
                 {
                     case 1:
-                        result.Species.Name = update.Value;
+                        result.SpeciesId = Convert.ToInt32(update.Value);
                         break; 
                     case 2:
                         result.Name = update.Value;
