@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace HumaneSociety
     public static class Query
     {
         public delegate void CRUDOnEmployee(Employee employee, string crud);
-
+        
         public static void RunEmployeeQueries(Employee employee, string crud)
         {
             CRUDOnEmployee performCrudDelegate;
@@ -314,6 +315,39 @@ namespace HumaneSociety
             //             where shots.AnimalId == animal.AnimalId
             //             select shots).First();
             //result.ShotId = v;
+        }
+
+        public static void ImportCSVFile()
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            string strReadFile = @"C:\Users\Esteban\Desktop\Projects\HumaneSocietyStarter\animals.csv";
+            int startLine = 1;
+            int lineCount = 3;
+            var fileLines = File.ReadAllLines(strReadFile).Skip((startLine)).Take(lineCount).ToList();
+            //List<Animal> list = new List<Animal>();
+            foreach (string line in fileLines)
+            {
+                string[] temp = line.Split(',');
+                if (temp.Length >= 2)
+                {
+                    Animal animal = new Animal();
+                    animal.AnimalId = Convert.ToInt32(temp[0].Trim());
+                    animal.Name = temp[1].Trim();
+                    animal.SpeciesId = Convert.ToInt32(temp[2].Trim());
+                    animal.Weight = Convert.ToInt32(temp[3].Trim());
+                    animal.Age = Convert.ToInt32(temp[4].Trim());
+                    animal.DietPlanId = Convert.ToInt32(temp[5].Trim());
+                    animal.Demeanor = temp[6].Trim();
+                    animal.KidFriendly = Convert.ToBoolean(temp[7].Trim());
+                    animal.PetFriendly = Convert.ToBoolean(temp[8].Trim());
+                    animal.Gender = temp[9].Trim();
+                    animal.AdoptionStatus = temp[10].Trim();
+                    animal.EmployeeId = Convert.ToInt32(temp[11].Trim());
+
+                    db.Animals.InsertOnSubmit(animal);
+                }
+            }
+            db.SubmitChanges();
         }
 
         public static IQueryable<Species> GetSpecies(string speciesName) //NEED TO ADD AND IF TO COVER IF SPECIES DOES NOT EXIST
