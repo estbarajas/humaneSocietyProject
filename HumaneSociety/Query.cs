@@ -477,6 +477,17 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
+        public static void UpdateRoom(int animalId,int roomName)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from room in db.Rooms
+                          where room.AnimalId == animalId
+                          select room).First();
+            result.AnimalId = animalId;
+            result.RoomName = roomName;
+            db.SubmitChanges();
+        }
+
         public static Room GetRoom(int animalId)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
