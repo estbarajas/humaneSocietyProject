@@ -110,12 +110,12 @@ namespace HumaneSociety
             return result;
         }
 
-        public static IQueryable<Animal> GetAnimalByID(int iD)
+        public static Animal GetAnimalByID(int iD)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            var result = from animal in db.Animals
+            var result = (from animal in db.Animals
                          where animal.AnimalId == iD
-                         select animal;
+                         select animal).First();
             return result;
         }
 
