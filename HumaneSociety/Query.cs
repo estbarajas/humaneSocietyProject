@@ -8,9 +8,88 @@ namespace HumaneSociety
 {
     public static class Query
     {
-        internal static void RunEmployeeQueries(Employee employee, string v)
+        public delegate void CRUDOnEmployee(Employee employee, string crud);
+
+        public static void RunEmployeeQueries(Employee employee, string crud)
         {
-            throw new NotImplementedException();
+            CRUDOnEmployee performCrudDelegate;
+            switch (crud)
+            {
+                case "create":
+                    performCrudDelegate = CreateNewEmployee;
+                    performCrudDelegate(employee, crud);
+                    break;
+
+                case "delete":
+                    performCrudDelegate = DeleteEmployee;
+                    performCrudDelegate(employee, crud);
+                    break;
+
+                case "read":
+                    performCrudDelegate = ReadEmployeeInfo;
+                    performCrudDelegate(employee, crud);
+                    break;
+
+                case "update":
+                    performCrudDelegate = UpdateEmployeeInfo;
+                    performCrudDelegate(employee, crud);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private static void UpdateEmployeeInfo(Employee employee, string crud) 
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from employees in db.Employees
+                         where employees.EmployeeId == employee.EmployeeId
+                         select employees).First();
+            result.FirstName = employee.FirstName;
+            result.LastName = employee.LastName;
+            result.UserName = employee.UserName;
+            result.Password = employee.Password;
+            result.EmployeeNumber = employee.EmployeeNumber;
+            result.Email = employee.Email;
+            
+            db.SubmitChanges();
+        }
+
+        private static void ReadEmployeeInfo(Employee employee, string crud)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from employees in db.Employees
+                          where employees.EmployeeId == employee.EmployeeId
+                          select employees).First();
+            List<string> employeeInfo = new List<string>();
+            UserInterface.DisplayUserOptions(employeeInfo);
+        }
+
+        private static void DeleteEmployee(Employee employee, string crud)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var result = (from employees in db.Employees
+                          where employees.EmployeeId == employee.EmployeeId
+                          select employees).First();
+
+            db.Employees.DeleteOnSubmit(result);
+            db.SubmitChanges();
+        }
+
+        private static void CreateNewEmployee(Employee employee, string crud)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Employee newEmployee = new Employee();
+            newEmployee.FirstName = employee.FirstName;
+            newEmployee.LastName = employee.LastName;
+            newEmployee.UserName = employee.UserName;
+            newEmployee.Password = employee.Password;
+            newEmployee.EmployeeNumber = employee.EmployeeNumber;
+            newEmployee.Email = employee.Email;
+
+            db.Employees.InsertOnSubmit(newEmployee);
+            db.SubmitChanges();
         }
 
         public static Client GetClient(string userName, string password)
